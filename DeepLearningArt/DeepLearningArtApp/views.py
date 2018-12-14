@@ -27,7 +27,7 @@ class UploadImageView(TemplateView):
             image_file = request.FILES['file']
 
             # Ensure file size
-            MAX_FILE_SIZE = 100
+            MAX_FILE_SIZE = 500
             if image_file.size > MAX_FILE_SIZE  * 1024:
                 form.add_error("file", "File size is limited to %sKB" % MAX_FILE_SIZE)
             else:

@@ -85,7 +85,7 @@
                     }
                     else {
                         let errMsg = "Sorry and unexpected error has occurred, please try again";
-                        for (i=0; i<data.errors.length; i++)
+                        for (let i=0; i<data.errors.length; i++)
                         {
                             console.log(data.errors[i]);
                             if (data.errors[i].length == 2)
