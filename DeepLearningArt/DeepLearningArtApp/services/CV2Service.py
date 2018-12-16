@@ -4,16 +4,26 @@ import cv2
 import os
 import pathlib
 import time
+import asyncio
 from django.conf import settings
 
 # Class defined using Singleton Pattern - https://gist.github.com/lalzada/3938daf1470a3b7ed7d167976a329638
 class CV2Service(object):
+    instance = None
+    initialized = False
+
     def __new__(cls):
         if not hasattr(cls, 'instance') or not cls.instance:
             cls.instance = super().__new__(cls)
-            
+            cls.initialized = False
         return cls.instance
-    
+
+    def __init__(self):
+        if not hasattr(self, 'initialized') or not self.initialized:
+            self.initialized = True
+            loop = asyncio.new_event_loop()
+            loop.run_until_complete(self.background())
+
     @staticmethod
     def getModels() :
         models = pathlib.Path(settings.MODEL_DIR).glob("*.t7")
@@ -88,3 +98,24 @@ class CV2Service(object):
         output_file = image_file[:-4] + "_ouput_" + time.strftime("%Y%m%d%H%M%S") + ".jpg"
         cv2.imwrite(output_file, output)
         return output_file
+
+    @staticmethod
+    async def initClRuntime():
+        image_file = os.path.join(settings.STATICFILES_DIR, "images\\modelThumbnail\\candy.jpg")
+        model_file = os.path.join(settings.MODEL_DIR, "candy.t7")
+        net = cv2.dnn.readNetFromTorch(model_file)
+
+        image = cv2.imread(image_file)
+        image = cv2.resize(image,(100,100))
+        (h, w) = image.shape[:2]
+
+        blob = cv2.dnn.blobFromImage(image, 1.0, (w, h),
+            (103.939, 116.779, 123.680), swapRB=False, crop=False)
+        net.setInput(blob)
+        net.forward()
+        return
+    
+    @classmethod
+    async def background(self):
+        asyncio.ensure_future(self.initClRuntime())
+        return
