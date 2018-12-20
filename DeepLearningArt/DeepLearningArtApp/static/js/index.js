@@ -8,8 +8,9 @@
     // Retrieve token from the image upload form
     $( document ).ready(function() {
 
-        // Create global for csrf token
+        // Create global's
         var imageUploadform_csrf_token = $("#imageUploadform input[name=csrfmiddlewaretoken]").val();
+        var mergeDisabled = false
 
         // Create jquery ui dialog for model selection
         $("#dialog").dialog({
@@ -117,6 +118,13 @@
                 return;
             }
 
+            // Avoid double click
+            if (mergeDisabled)
+                return;
+            mergeDisabled = true;
+            // Change cursor
+            $("body").css("cursor", "progress");
+
             let data = { "image" : image, "model" : model, "csrfmiddlewaretoken" : imageUploadform_csrf_token };
             $.ajax({
                 url: "/merge/",
@@ -136,7 +144,11 @@
                     console.log(error);
                     alert('Sorry and unexpected error has occurred, please try again');
                 },
-            });                
+                complete: function () {
+                    mergeDisabled = false;
+                    $("body").css("cursor", "default");
+                },
+            });           
         });
 
         // When user clicks on save result icon or merged image
