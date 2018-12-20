@@ -1,19 +1,15 @@
- # DeepLearningArt/views.py
 import os
-
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.views.generic import TemplateView
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
-from DeepLearningArtApp.forms import ImageUploadForm
-from django.forms import forms
 from django.core.exceptions import ValidationError
+from django.core.files.storage import FileSystemStorage
+from django.forms import forms
 from django.http import JsonResponse
-from DeepLearningArtApp.services.CV2Service import CV2Service
-from django.templatetags.static import static
-from django.conf import settings
 from django.http.response import HttpResponse
+from django.shortcuts import render
+from django.templatetags.static import static
+from django.views.generic import TemplateView
+from DeepLearningArtApp.forms import ImageUploadForm
+from DeepLearningArtApp.services.CV2Service import CV2Service
 
 # Create your views here.
 class HomePageView(TemplateView):

@@ -1,10 +1,8 @@
-# import the necessary packages
-import argparse
+import asyncio
 import cv2
 import os
 import pathlib
 import time
-import asyncio
 from django.conf import settings
 
 # Class defined using Singleton Pattern - https://gist.github.com/lalzada/3938daf1470a3b7ed7d167976a329638
