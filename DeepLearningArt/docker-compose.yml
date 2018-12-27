@@ -1,0 +1,29 @@
+version: "3.6"
+services:
+  web:
+    image: psphilli/deep-learning-art:latest
+    build: ./DeepLearningArtApp
+    command: gunicorn DeepLearningArt.wsgi --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY=$$jy8l*$$z9ycez^n(vang!y0ty)^rlnxiv@x+ti91nqsx+4i(+7
+      - DJANGO_SETTINGS_MODULE=DeepLearningArt.settings.production
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media    
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+volumes:
+  static_volume:
+  media_volume:

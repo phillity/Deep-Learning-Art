@@ -7,10 +7,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Media
+# Static & Media
+DeepLearningArt/staticfiles/*
 DeepLearningArt/media/*
-
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
