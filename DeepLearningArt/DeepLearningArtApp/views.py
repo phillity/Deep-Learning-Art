@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.templatetags.static import static
 from django.views.generic import TemplateView
 from DeepLearningArtApp.forms import ImageUploadForm
-from DeepLearningArtApp.services.CV2Service import CV2Service
+from DeepLearningArtApp.services.cv2_service import CV2Service
 from DeepLearningArtApp.services.s3_service import S3Service
 
 # Create your views here.
@@ -52,20 +52,21 @@ class GetModelsView(TemplateView):
     ''' Class for retrieving info for available CV2 models '''
     def get(self, request, *args, **kwargs):
         ''' Handle get model info request '''
-        return JsonResponse({"status": "true", 
-                             "modelThumbnailDir" : static('/images/modelThumbnail'), 
-                             "models" : CV2Service().getModels()})
+        return JsonResponse({"status": "true",
+                             "modelThumbnailDir" : static('/images/modelThumbnail'),
+                             "models" : CV2Service().get_models()})
 
 class DoMergeView(TemplateView):
     ''' Class for performing info for available CV2 models '''
-    def post(self, request):
+    @staticmethod
+    def post(request):
         ''' Handle merge post request '''
         try:
             image = request.POST.get("image", "")
             image_file_name = os.path.join(settings.MEDIA_ROOT, os.path.basename(image))
 
             model_name = request.POST.get("model", "")
-            styled_image = CV2Service.styleTransfer(image_file_name, model_name)
+            styled_image = CV2Service().style_transfer(image_file_name, model_name)
 
             # save to aws s3
             styled_image_url = S3Service().upload_file(os.path.join(settings.MEDIA_ROOT,
@@ -77,7 +78,8 @@ class DoMergeView(TemplateView):
 
 class DownloadImageView(TemplateView):
     ''' Class for retrieving an image '''
-    def post(self, request):
+    @staticmethod
+    def post(request):
         ''' Handle request image post request '''
 
         try:
