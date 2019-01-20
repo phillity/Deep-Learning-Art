@@ -16,7 +16,6 @@
                 "--noreload",
                 "--nothreading"
             ],
-            "env": {"DJANGO_SETTINGS_MODULE":"DeepLearningArt.settings.local"},
             "django": true,
         },
     ]

@@ -99,10 +99,10 @@ class CV2Service(object):
 
     @staticmethod
     async def initClRuntime():
-        image_file = os.path.join(settings.STATICFILES_DIR, "images\\modelThumbnail\\candy.jpg")
+        image_file = os.path.join(settings.BASE_DIR, 'DeepLearningArtApp/static/images/modelThumbnail/candy.jpg')
         model_file = os.path.join(settings.MODEL_DIR, "candy.t7")
         net = cv2.dnn.readNetFromTorch(model_file)
-
+        
         image = cv2.imread(image_file)
         image = cv2.resize(image,(100,100))
         (h, w) = image.shape[:2]

@@ -20,7 +20,7 @@ MODEL_DIR = os.path.join(BASE_DIR, 'DeepLearningArtApp/services/models')
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = please_change_me
+SECRET_KEY = os.getenv('DLA_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = False
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'DeepLearningArt.urls'
@@ -124,3 +125,8 @@ STATICFILES_DIR = os.path.join(BASE_DIR, 'DeepLearningArtApp/static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AWS_REGION_NAME = os.environ['AWS_REGION_NAME']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_BUCKET_NAME = os.environ['AWS_BUCKET_NAME']

@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DeepLearningArt.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', os.environ['DLA_SETTINGS_MODULE'])
 
 application = get_wsgi_application()
